@@ -1,14 +1,9 @@
-from flask import Flask
-from database import init_db
-import controller
-
-app = Flask(__name__)
-
-init_db()
+from library_service import app
+from library_service import controller
 
 @app.route('/health')
 def health():
-    return "user is so healthy"
+    return "library is so healthy"
 
 @app.route('/books')
 def books():
@@ -19,5 +14,5 @@ def checkout(book_id):
     return controller.checkout_book(book_id)
 
 @app.route('/return/<int:book_id>', methods=['POST'])
-def re_uh_give_back(book_id):
+def re_uh_give_back(book_id, user_id):
     return controller.return_book(book_id)

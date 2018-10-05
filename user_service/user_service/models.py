@@ -1,7 +1,8 @@
 import datetime
-
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from database import Base
+
+#local imports
+from user_service.database import Base
 
 class User(Base):
     __tablename__ = 'users'
@@ -23,8 +24,6 @@ class Rental(Base):
     due = Column(DateTime, nullable=False, default=datetime.datetime.now() +
                  datetime.timedelta(days=7))
 
-    def __init__(self, book_id, user_id, out, due):
+    def __init__(self, book_id, user_id):
         self.book_id = book_id
         self.user_id = user_id
-        self.out = out
-        self.due = due

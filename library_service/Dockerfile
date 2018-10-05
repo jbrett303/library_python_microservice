@@ -4,4 +4,4 @@ RUN pip install pipenv
 COPY . .
 RUN pipenv install --system
 EXPOSE 5000
-CMD gunicorn library:app --workers ${WORKERS:-8} --bind 0.0.0.0:5000 --access-logfile -
+CMD gunicorn gunicornentry:app --workers ${WORKERS:-8} --bind 0.0.0.0:5000 --access-logfile -
