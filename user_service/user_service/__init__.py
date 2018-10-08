@@ -1,15 +1,9 @@
 # third-party imports
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/user.db'
+db = SQLAlchemy(app)
 
-import user_service.views
-
-from user_service.database import init_db
-init_db()
-
-from user_service.database import db_session
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
+from user_service import views

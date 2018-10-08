@@ -14,5 +14,9 @@ def checkout(book_id):
     return controller.checkout_book(book_id)
 
 @app.route('/return/<int:book_id>', methods=['POST'])
-def re_uh_give_back(book_id, user_id):
+def re_uh_give_back(book_id):
     return controller.return_book(book_id)
+
+@app.route('/add/<string:title>/<string:author>', methods=['POST'])
+def add(title, author):
+    return controller.add_book(title, author)

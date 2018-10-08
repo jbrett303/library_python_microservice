@@ -1,22 +1,22 @@
 #user controllers
 import requests
 from flask import jsonify
+from user_service import db
+from user_service.models import Rental
 
 
 def get_books():
     res = requests.get('http://libserv:5000/books')
-    print(res.status_code)
-    return str(res.status_code)
+    return res
 
 
 def checkout_book(book_id, user_id):
-    #hit the put on library to flag out
-    #check for error
-    from user_service.database import db_session
-    from user_service.models import Rental
+    res = requests.post(f'http://libserv:5000/checkout/{book_id}')
+    if res.status_code != requests.codes.ok:
+        return res
     r = Rental(book_id, user_id)
-    db_session.add(r)
-    db_session.commit()
+    db.session.add(r)
+    db.session.commit()
     return jsonify({
         'book id': book_id,
         'user_id': user_id,
@@ -25,15 +25,14 @@ def checkout_book(book_id, user_id):
 
 
 def return_book(book_id, user_id):
-    from user_service.models import Rental
-    rental = Rental.query.filter((Rental.book_id == book_id) & (Rental.user_id == user_id))
+    res = requests.post(f'http://libserv:5000/return/{book_id}')
+    if res.status_code != requests.codes.ok:
+        return res
+    rental = Rental.query.filter((Rental.book_id == book_id) & (Rental.user_id == user_id)).first()
     if not rental:
         return "rental not found", 400
-    #hit the put on library to flag in
-    #check for error
-    from user_service.database import db_session
-    db_session.delete(rental)
-    db_session.commit()
+    db.session.delete(rental)
+    db.session.commit()
     return jsonify({
         'book id': book_id,
         'user_id': user_id,
@@ -42,7 +41,6 @@ def return_book(book_id, user_id):
 
 
 def rentalstatus():
-    from user_service.models import Rental
     rentals = Rental.query.all()
     stats = []
     for rental in rentals:
