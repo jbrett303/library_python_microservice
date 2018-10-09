@@ -1,15 +1,17 @@
 # third-party imports
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-import library_service.views
+def create_app(config=None):
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_pyfile(config)
+    register_extension(app)
+    return app
 
-from library_service.database import init_db
-init_db()
+def register_extension(app):
+    db.init_app(app)
 
-from library_service.database import db_session
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
+    from library_service.views import library_routes
+    app.register_blueprint(library_routes)
