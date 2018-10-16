@@ -9,6 +9,8 @@ Flask = "*"
 flask-sqlalchemy = "*"
 requests = "*"
 sqlalchemy = "*"
+pytest = "*"
+requests-mock = "*"
 
 [dev-packages]
 

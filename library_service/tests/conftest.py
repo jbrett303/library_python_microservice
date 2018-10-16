@@ -1,7 +1,7 @@
 import pytest
 
-from library_service.models import Book
 from library_service import create_app, db
+from library_service.models import Book
 
 @pytest.fixture(scope='module')
 def new_book():
@@ -26,13 +26,13 @@ def init_database():
     # Create the database and the database table
     db.create_all()
  
-    # Insert user data
+    # Insert book data
     book1 = Book('test book title 1','test book author 1')
     book2 = Book('test book title 2','test book author 2')
     db.session.add(book1)
     db.session.add(book2)
  
-    # Commit the changes for the users
+    # Commit the changes
     db.session.commit()
  
     yield db  # this is where the testing happens!

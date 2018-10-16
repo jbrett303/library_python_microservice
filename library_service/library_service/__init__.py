@@ -8,10 +8,12 @@ def create_app(config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(config)
     register_extension(app)
+    register_blueprints(app)
     return app
 
 def register_extension(app):
     db.init_app(app)
 
+def register_blueprints(app):
     from library_service.views import library_routes
     app.register_blueprint(library_routes)
