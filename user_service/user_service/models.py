@@ -21,7 +21,7 @@ class Rental(db.Model):
     user_id = db.Column(db.Integer)
     out = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     due = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now() +
-                 datetime.timedelta(days=7))
+                    datetime.timedelta(days=7))
 
     def __init__(self, book_id, user_id):
         self.book_id = book_id

@@ -18,7 +18,7 @@ def books():
 def checkout(book_id, user_id):
     res = requests.post(f'http://libserv:5000/checkout/{book_id}')
     if res.status_code != requests.codes.ok:
-        return res
+        return res.content, res.status_code
     r = Rental(book_id, user_id)
     db.session.add(r)
     db.session.commit()
