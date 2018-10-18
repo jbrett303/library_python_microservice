@@ -1,26 +1,27 @@
+"""app models"""
 import datetime
+from user_service import DB
 
-#local imports
-from user_service import db
-
-class User(db.Model):
+class User(DB.Model):
+    """User model"""
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-    email = db.Column(db.String(120), unique=True)
+    id = DB.Column(DB.Integer, primary_key=True)
+    name = DB.Column(DB.String(50), unique=True)
+    email = DB.Column(DB.String(120), unique=True)
 
     def __init__(self, name=None, email=None):
         self.name = name
         self.email = email
 
 
-class Rental(db.Model):
+class Rental(DB.Model):
+    """Rental mmodel"""
     __tablename__ = 'rentals'
-    id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer)
-    user_id = db.Column(db.Integer)
-    out = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
-    due = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now() +
+    id = DB.Column(DB.Integer, primary_key=True)
+    book_id = DB.Column(DB.Integer)
+    user_id = DB.Column(DB.Integer)
+    out = DB.Column(DB.DateTime, nullable=False, default=datetime.datetime.now)
+    due = DB.Column(DB.DateTime, nullable=False, default=datetime.datetime.now() +
                     datetime.timedelta(days=7))
 
     def __init__(self, book_id, user_id):

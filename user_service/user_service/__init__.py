@@ -1,10 +1,11 @@
-# third-party imports
+"""app factory"""
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+DB = SQLAlchemy()
 
 def create_app(config=None):
+    """creates the app instance"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(config)
     register_extension(app)
@@ -12,8 +13,10 @@ def create_app(config=None):
     return app
 
 def register_extension(app):
-    db.init_app(app)
+    """register extensions with the app, in this case just the db"""
+    DB.init_app(app)
 
 def register_blueprints(app):
-    from user_service.views import user_routes
-    app.register_blueprint(user_routes)
+    """register blueprints to the app"""
+    from user_service.views import USER_ROUTES
+    app.register_blueprint(USER_ROUTES)

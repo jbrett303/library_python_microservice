@@ -1,14 +1,13 @@
-import datetime
+"""app models"""
+from library_service import DB
 
-#local imports
-from library_service import db
-
-class Book(db.Model):
+class Book(DB.Model):
+    """book model"""
     __tablename__ = 'books'
-    book_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    author = db.Column(db.String(50))
-    in_stock = db.Column(db.Boolean(), default=True)
+    book_id = DB.Column(DB.Integer, primary_key=True)
+    title = DB.Column(DB.String(100))
+    author = DB.Column(DB.String(50))
+    in_stock = DB.Column(DB.Boolean(), default=True)
 
     def __init__(self, title, author):
         self.title = title
